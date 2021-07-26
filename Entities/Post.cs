@@ -19,5 +19,6 @@ namespace Blog.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public List<Tag> Tags { get; set; } = new();
+        public int CompanyId { get; set; }
     }
 }
