@@ -5,8 +5,6 @@ namespace Blog.Entities
 {
     public class Post
     {
-        private string _tenantId;
-        
         public int Id { get; set; }
         public string Title { get; set; }
         public string Summary { get; set; }

@@ -25,9 +25,6 @@ namespace Blog.Data.Mapping
             builder.Property(x => x.Slug).IsRequired().HasMaxLength(80).HasColumnType("VARCHAR");
             builder.Property(x => x.CreateDate).IsRequired().HasColumnType("DATETIME");
             builder.Property(x => x.LastUpdateDate).IsRequired().HasColumnType("DATETIME");
-
-            // Query Filters
-            builder.HasQueryFilter(x => EF.Property<int>(x, "CompanyId") == 2);
         }
     }
 }

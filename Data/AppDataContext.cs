@@ -2,14 +2,19 @@ using System;
 using Blog.Data.Mapping;
 using Microsoft.EntityFrameworkCore;
 using Blog.Entities;
+using Blog.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace Blog.Data
 {
     public class AppDataContext : DbContext
     {
-        public AppDataContext(DbContextOptions<AppDataContext> options) : base(options)
-        {
-        }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public AppDataContext(
+            DbContextOptions<AppDataContext> options, 
+            IHttpContextAccessor httpContextAccessor) : base(options) =>
+            _httpContextAccessor = httpContextAccessor;
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<Post> Posts { get; set; }
@@ -28,6 +33,10 @@ namespace Blog.Data
             modelBuilder.ApplyConfiguration(new RoleMap());
             modelBuilder.ApplyConfiguration(new TagMap());
             modelBuilder.ApplyConfiguration(new UserMap());
+            
+            
+            // Query Filters
+            modelBuilder.Entity<Post>().HasQueryFilter(x => EF.Property<int>(x, "CompanyId") == _httpContextAccessor.HttpContext.User.CompanyId());
         }
     }
 }

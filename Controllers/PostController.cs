@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Blog.Data;
 using Blog.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Blog.Controllers
 {
     [Route("api/posts")]
     [ApiController]
+    [Authorize]
     public class PostController : ControllerBase
     {
         private readonly AppDataContext _context;
@@ -81,7 +83,7 @@ namespace Blog.Controllers
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPost", new { id = post.Id }, post);
+            return CreatedAtAction("GetPost", new {id = post.Id}, post);
         }
 
         // DELETE: api/Post/5
