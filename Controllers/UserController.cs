@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Blog.Data;
 using Blog.Entities;
+using SecureIdentity.Password;
 
 namespace Blog.Controllers
 {
@@ -78,6 +77,8 @@ namespace Blog.Controllers
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
         {
+            var hash = PasswordHasher.Hash(user.PasswordHash);
+            user.PasswordHash = hash;
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
